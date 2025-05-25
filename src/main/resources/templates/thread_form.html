@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>スレッド作成</title>
+</head>
+<body>
+<h1>新しいスレッドを作成</h1>
+<form action="/threads" method="post" th:object="${thread}"> <!--th:object="${thread}"：@ModelAttribute で受け取るフォームのオブジェクト（Thread）th:object：フォーム全体の対象オブジェクト指定-->
+  タイトル: <input type="text" th:field="*{title}" /><br> <!--th:field="*{title}"：Thread#getTitle() に対応したフォーム入力欄。th:field：Javaオブジェクトとフォームの連携-->
+  <button type="submit">作成</button> <!--フォームを送信すると、POST /threads にリクエストされて、createThread() メソッドが呼び出されます。-->
+</form>
+<a href="/">戻る</a>
+</body>
+</html>

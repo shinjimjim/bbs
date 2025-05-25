@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!--th:属性を使う宣言（テンプレート機能）-->
+<head>
+  <title>掲示板</title>
+</head>
+<body>
+<h1>スレッド一覧</h1>
+<a href="/threads/new">新しいスレッドを作成</a>
+<ul>
+  <li th:each="thread : ${threads}"> <!--ループ：Java側で渡されたthreadsリストを1件ずつ表示。th:each：リストを繰り返し表示-->
+    <span th:text="${thread.title}"></span> - <!--thread.getTitle() の値を表示。th:text：変数やメソッドの結果を表示-->
+    <span th:text="${#temporals.format(thread.createdAt, 'yyyy/MM/dd HH:mm')}"></span> <!--createdAt（LocalDateTime）を整形して表示（日時の表示）-->
+  </li>
+</ul>
+</body>
+</html>
