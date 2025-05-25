@@ -8,8 +8,11 @@
 <a href="/threads/new">新しいスレッドを作成</a>
 <ul>
   <li th:each="thread : ${threads}"> <!--ループ：Java側で渡されたthreadsリストを1件ずつ表示。th:each：リストを繰り返し表示-->
-    <span th:text="${thread.title}"></span> - <!--thread.getTitle() の値を表示。th:text：変数やメソッドの結果を表示-->
-    <span th:text="${#temporals.format(thread.createdAt, 'yyyy/MM/dd HH:mm')}"></span> <!--createdAt（LocalDateTime）を整形して表示（日時の表示）-->
+    <a th:href="@{'/threads/' + ${thread.id}}"
+       th:text="${thread.title} + ' - ' + ${#temporals.format(thread.createdAt, 'yyyy/MM/dd HH:mm')}"></a>
+    <!--h:href="@{'/threads/' + ${thread.id}}"：リンク先URLを動的に /threads/1 のように生成する。例えば thread.id = 5 なら /threads/5 になる。-->
+    <!--<span th:text="${thread.title}"></span> - <!-thread.getTitle() の値を表示。th:text：変数やメソッドの結果を表示-->
+    <!--<span th:text="${#temporals.format(thread.createdAt, 'yyyy/MM/dd HH:mm')}"></span> <!createdAt（LocalDateTime）を整形して表示（日時の表示）-->
   </li>
 </ul>
 </body>

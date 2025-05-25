@@ -1,0 +1,32 @@
+<!DOCTYPE html> <!--Spring Boot + Thymeleaf を使って作られた「スレッド詳細ページ（閲覧 + 書き込みフォーム）」です。-->
+<html xmlns:th="http://www.thymeleaf.org"> <!--xmlns:th="..."：Thymeleafの属性（th:textやth:eachなど）を使えるように宣言している。-->
+<head>
+  <title th:text="${thread.title}">スレッド</title> <!--th:text="${thread.title}" は、コントローラーから渡された Model の中の thread オブジェクトの title プロパティを表示。-->
+</head>
+<body>
+<h1 th:text="${thread.title}">スレッドタイトル</h1> <!--実際のページ上にも、スレッドタイトルを <h1> 見出しとして表示。-->
+
+<h2>投稿一覧</h2>
+<ul>
+  <li th:each="post : ${posts}"> <!--posts リストの要素を1つずつ post として処理するループ。-->
+    <strong th:text="${post.username}"></strong>： <!--post.username：投稿者の名前-->
+    <span th:text="${post.content}"></span> <!--post.content：投稿の本文-->
+    <small>（<span th:text="${#temporals.format(post.postedAt, 'yyyy/MM/dd HH:mm')}"></span>）</small>
+    <!--post.postedAt：投稿時刻を yyyy/MM/dd HH:mm 形式で整形して表示。#temporals.format(...)：Thymeleafの日時フォーマット関数-->
+  </li>
+</ul>
+
+<h2>レス投稿</h2>
+<form th:action="@{/threads/{id}/posts(id=${thread.id})}" method="post" th:object="${post}">
+  <!--POST先のURLを @{/threads/{id}/posts(id=${thread.id})} で指定。例えばスレッドIDが3なら、/threads/3/posts に送信される。-->
+  <!--th:object="${post}"：フォームバインド対象のモデル（Post クラス）を指定。以降の th:field で *{プロパティ名} の形で使える。-->
+  <!--フォームの中身-->
+  名前: <input type="text" th:field="*{username}" placeholder="名無しさん" /><br> <!--th:field="*{username}"：バインドされるPostオブジェクトの username フィールドに対応。-->
+  <!--placeholder="名無しさん"：名前を未入力にすると「名無しさん」になる想定。-->
+  内容: <textarea th:field="*{content}"></textarea><br>
+  <button type="submit">書き込む</button>
+</form>
+
+<p><a href="/">スレッド一覧に戻る</a></p>
+</body>
+</html>
